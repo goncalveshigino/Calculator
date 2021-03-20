@@ -62,6 +62,38 @@ class _BillSplitterState extends State<BillSplitter> {
                       }
                     },
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Split",
+                        style: TextStyle(color: Colors.grey.shade700),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                if (_personCounter > 1) {
+                                  _personCounter--;
+                                } else {
+                                  // do nothing
+                                }
+                              });
+                            },
+                            child: Container(
+                              width: 40.0,
+                              height: 40.0,
+                              margin: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7.0),
+                                  color: _purple.withOpacity(0.1)),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  )
                 ],
               ),
             )
