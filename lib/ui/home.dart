@@ -33,19 +33,23 @@ class _BillSplitterState extends State<BillSplitter> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Total Per Person", style: TextStyle(
-                      color: Colors.purple.shade800,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.normal
-                    ),), 
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(" \$123", style: TextStyle(
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple.shade800
-                    ),),
-                  )
+                    Text(
+                      "Total Per Person",
+                      style: TextStyle(
+                          color: Colors.purple.shade800,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        " \AOA ${calculateTotalPerPerson(_billAmount, _personCounter, _tipPercentage)}",
+                        style: TextStyle(
+                            fontSize: 35.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple.shade800),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -157,11 +161,13 @@ class _BillSplitterState extends State<BillSplitter> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(18.0),
-                        child: Text("\$34", style: TextStyle(
-                          color: Colors.purple.shade800,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17.0
-                        ),),
+                        child: Text(
+                          "\AOA ${ (calculateTotalTip(_billAmount,_personCounter, _tipPercentage)).toStringAsFixed(2)}",
+                          style: TextStyle(
+                              color: Colors.purple.shade800,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0),
+                        ),
                       )
                     ],
                   ),
@@ -169,26 +175,26 @@ class _BillSplitterState extends State<BillSplitter> {
                   //Slider
                   Column(
                     children: <Widget>[
-                      Text("$_tipPercentage %", style: TextStyle(
-                        color: Colors.purple.shade800,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.bold
-                      ),),
-
-                     Slider(
-                       min: 0,
-                       max: 100,
-                       activeColor: Colors.purple.shade800,
-                       inactiveColor: Colors.grey,
-                       divisions: 5,
-                       value: _tipPercentage.toDouble(),
-                       onChanged: (double newValue){
-                             setState(() {
-                               _tipPercentage = newValue.round();
-                             });
-                           },
-                     )
-
+                      Text(
+                        "$_tipPercentage %",
+                        style: TextStyle(
+                            color: Colors.purple.shade800,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Slider(
+                        min: 0,
+                        max: 100,
+                        activeColor: Colors.purple.shade800,
+                        inactiveColor: Colors.grey,
+                        divisions: 5,
+                        value: _tipPercentage.toDouble(),
+                        onChanged: (double newValue) {
+                          setState(() {
+                            _tipPercentage = newValue.round();
+                          });
+                        },
+                      )
                     ],
                   )
                 ],
@@ -198,5 +204,24 @@ class _BillSplitterState extends State<BillSplitter> {
         ),
       ),
     );
+  }
+
+  calculateTotalPerPerson(double billAmount, int splitBy, int tipPercentage) {
+    var totalPerPerson =
+        (calculateTotalTip(billAmount, splitBy, tipPercentage) + billAmount) / splitBy;
+
+    return totalPerPerson.toStringAsFixed(2);
+  }
+
+  calculateTotalTip(double billAmount, int splitBy, int tipPercentage) {
+    double totalTip = 0.0;
+
+    if (billAmount < 0 || billAmount.toString().isEmpty || billAmount == null) {
+      //no go!
+    } else {
+      totalTip = (billAmount * tipPercentage) / 100;
+    }
+
+    return totalTip;
   }
 }
