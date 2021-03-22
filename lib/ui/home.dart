@@ -50,7 +50,7 @@ class _BillSplitterState extends State<BillSplitter> {
                   TextField(
                     keyboardType:
                         TextInputType.numberWithOptions(decimal: true),
-                    style: TextStyle(color: _purple),
+                    style: TextStyle(color: Colors.purple.shade800),
                     decoration: InputDecoration(
                         prefixText: "Bill Amount",
                         prefixIcon: Icon(Icons.attach_money)),
@@ -88,12 +88,69 @@ class _BillSplitterState extends State<BillSplitter> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7.0),
                                   color: _purple.withOpacity(0.1)),
+                              child: Center(
+                                child: Text(
+                                  "-",
+                                  style: TextStyle(
+                                      color: Colors.purple.shade800,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17.0),
+                                ),
+                              ),
                             ),
-                          )
+                          ),
+                          Text(
+                            "$_personCounter",
+                            style: TextStyle(
+                                color: Colors.purple.shade800,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.0),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _personCounter++;
+                              });
+                            },
+                            child: Container(
+                              width: 40.0,
+                              height: 40.0,
+                              margin: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                  color: _purple.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(7.0)),
+                              child: Center(
+                                child: Text(
+                                  "+",
+                                  style: TextStyle(
+                                      color: Colors.purple.shade800,
+                                      fontSize: 17.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     ],
-                  )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Tip",
+                        style: TextStyle(color: Colors.grey.shade700),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text("\$34", style: TextStyle(
+                          color: Colors.purple.shade800,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0
+                        ),),
+                      )
+                    ],
+                  ),
                 ],
               ),
             )
